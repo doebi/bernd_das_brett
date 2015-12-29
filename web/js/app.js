@@ -68,11 +68,13 @@ function onMessageArrived(message) {
     console.log(topic + ' = ' + payload);
 
     switch (topic) {
-        case 'doebi/watergun/heartbeat':
-            document.getElementById("uptime").innerHTML = moment(moment().valueOf() - Number(payload)).toNow(true);            
-            break;
-        case 'doebi/watergun/button':
-            document.getElementById("trigger").innerHTML = payload;            
+        case 'devlol/babyscooter/online':
+            if (payload == "false") {
+                document.body.style.backgroundColor = "red";
+            }
+            if (payload == "true") {
+                document.body.style.backgroundColor = "black";
+            }
             break;
         default:
             break;
