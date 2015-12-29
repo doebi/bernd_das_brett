@@ -25,12 +25,15 @@ body {
 
             var img = document.getElementById("image");
 
-            // starting http://reactiongifs.me/wp-content/uploads/2014/03/johnny-english-gif-mondays-at-work-and-my-boss-calls-me.gif
 
             function updateFace() {
                 if(Bot.left && Bot.right){
                     console.log("straight");
-                    img.src = "http://ak-hdl.buzzfed.com/static/2015-08/11/15/enhanced/webdr11/anigif_enhanced-20187-1439321458-9.gif";
+                    
+                    img.src = "http://reactiongifs.me/wp-content/uploads/2014/03/johnny-english-gif-mondays-at-work-and-my-boss-calls-me.gif"
+                    window.setTimeout(function(){
+                        img.src = "http://ak-hdl.buzzfed.com/static/2015-08/11/15/enhanced/webdr11/anigif_enhanced-20187-1439321458-9.gif";
+                    }, 2800);
                 }
                 if(Bot.left && !Bot.right){
                     img.src = "http://jessiediggins.com/wp-content/uploads/2014/10/surprise-face-gif.gif";
