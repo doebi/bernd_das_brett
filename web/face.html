@@ -1,0 +1,102 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Babyscooter Control Panel</title>
+    <script type="text/javascript" src="js/mqttws31.js"></script>
+    <style type="text/css" media="screen">
+body {
+    margin: auto 0px;
+}
+    </style>
+</head>
+<body>
+        <img id="image" style="height: 100%; width: 100%" src="" alt=""/>
+        <script type="text/javascript">
+            var mqtt;
+            var reconnectTimeout = 2000;
+            var host = "158.255.212.248";
+            var port = 8080;
+            var topic = "devlol/babyscooter/#";
+
+            var Bot = {
+                left: false,
+                right: false
+            };
+
+            var img = document.getElementById("image");
+
+            // starting http://reactiongifs.me/wp-content/uploads/2014/03/johnny-english-gif-mondays-at-work-and-my-boss-calls-me.gif
+
+            function updateFace() {
+                if(Bot.left && Bot.right){
+                    console.log("straight");
+                    img.src = "http://ak-hdl.buzzfed.com/static/2015-08/11/15/enhanced/webdr11/anigif_enhanced-20187-1439321458-9.gif";
+                }
+                if(Bot.left && !Bot.right){
+                    img.src = "http://jessiediggins.com/wp-content/uploads/2014/10/surprise-face-gif.gif";
+                }
+                if(!Bot.left && Bot.right){
+                    img.src = "http://24.media.tumblr.com/tumblr_m6xhkwvhSx1qbkfaao1_500.gif";
+                }
+                if(!Bot.left && !Bot.right){
+                    console.log("sstraighttraight");
+                    img.src = "http://m0.joe.ie/wp-content/uploads/2015/06/04120644/Asleep-gif.gif";
+                }
+            }
+            
+            function MQTTconnect() {
+                console.log("connecting");
+                mqtt = new Paho.MQTT.Client(
+                                host,
+                                port,
+                                "web_" + parseInt(Math.random() * 100,
+                                10));
+                var options = {
+                    timeout: 3,
+                    onSuccess: onConnect,
+                    onFailure: function (message) {
+                        setTimeout(MQTTconnect, reconnectTimeout);
+                    }
+                };
+            
+                mqtt.onConnectionLost = onConnectionLost;
+                mqtt.onMessageArrived = onMessageArrived;
+            
+                console.log("Host="+ host + ", port=" + port);
+                mqtt.connect(options);
+            }
+            
+            function onConnect() {
+                console.log('Connected to ' + host + ':' + port);
+                mqtt.subscribe(topic, {qos: 0});
+                console.log(topic);
+            }
+            
+            function onConnectionLost(response) {
+                setTimeout(MQTTconnect, reconnectTimeout);
+                console.log("connection lost: " + response.errorMessage + ". Reconnecting");
+            };
+            
+            function onMessageArrived(message) {
+            
+                var topic = message.destinationName;
+                var payload = message.payloadString;
+            
+                console.log(topic + ' = ' + payload);
+            
+                if(topic == 'devlol/babyscooter/left')
+                    Bot.left = payload != "0";
+
+                if(topic == 'devlol/babyscooter/right')
+                    Bot.right = payload != "0";
+                updateFace();
+            };
+            
+            window.onload = function() {
+                console.log("booting up");
+                MQTTconnect();
+            };
+            
+        </script>
+</body>
+</html>
