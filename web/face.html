@@ -16,7 +16,7 @@ body {
             var reconnectTimeout = 2000;
             var host = "158.255.212.248";
             var port = 8080;
-            var topic = "devlol/babyscooter/#";
+            var topic = "devlol/bernd/#";
 
             var Bot = {
                 left: false,
@@ -81,10 +81,10 @@ body {
             
                 console.log(topic + ' = ' + payload);
             
-                if(topic == 'devlol/babyscooter/left')
+                if(topic == 'devlol/bernd/left')
                     Bot.left = payload != "0";
 
-                if(topic == 'devlol/babyscooter/right')
+                if(topic == 'devlol/bernd/right')
                     Bot.right = payload != "0";
                 updateFace();
             };

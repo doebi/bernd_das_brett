@@ -1,5 +1,5 @@
 /*
- * Firmware for an ESP powering a phyiscal watergun becoming a browsergame..
+ * Firmware for an ESP powered device
  * (c) by Christoph (doebi) Döberl
  *
  */
@@ -8,7 +8,7 @@
 #include <ESP8266WiFiMulti.h>
 #include <PubSubClient.h>
 
-String nodeName = "devlol/babyscooter/";
+String nodeName = "devlol/bernd/";
 
 // pins
 const int left = 14;
@@ -28,10 +28,10 @@ PubSubClient client(wclient, MQTTserver);
 void mqtt_callback(const MQTT::Publish& pub) {
     String topic = pub.topic();
     String msg = pub.payload_string();
-    if(topic == "devlol/babyscooter/left") {
+    if(topic == "devlol/bernd/left") {
         digitalWrite(left, msg == "0" ? LOW : HIGH);
     }
-    if(topic == "devlol/babyscooter/right") {
+    if(topic == "devlol/bernd/right") {
         digitalWrite(right, msg == "0" ? LOW : HIGH);
     }
 }
@@ -67,7 +67,7 @@ void loop() {
     if (client.connected()) {
         client.loop();
     } else {
-        if (client.connect("babyscooter", nodeName + "online", 0, true, "false")) {
+        if (client.connect("bernd", nodeName + "online", 0, true, "false")) {
             client.publish(nodeName + "online", "true", true);
             Serial.println("MQTT connected");
             client.set_callback(mqtt_callback);

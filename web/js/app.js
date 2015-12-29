@@ -2,7 +2,7 @@ var mqtt;
 var reconnectTimeout = 2000;
 var host = "158.255.212.248";
 var port = 8080;
-var topic = "devlol/babyscooter/#";
+var topic = "devlol/bernd/#";
 
 var Bot = {
     left: function(){
@@ -39,7 +39,7 @@ window.onkeydown = function(e) {
 }
 
 function setMotor(motor, value) {
-    mqtt.send("devlol/babyscooter/" + motor, value);
+    mqtt.send("devlol/bernd/" + motor, value);
 }
 
 function MQTTconnect() {
@@ -83,7 +83,7 @@ function onMessageArrived(message) {
     console.log(topic + ' = ' + payload);
 
     switch (topic) {
-        case 'devlol/babyscooter/online':
+        case 'devlol/bernd/online':
             if (payload == "false") {
                 document.body.style.backgroundColor = "red";
             }
