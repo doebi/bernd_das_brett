@@ -2,24 +2,39 @@ var mqtt;
 var reconnectTimeout = 2000;
 var host = "158.255.212.248";
 var port = 8080;
-var topic = "devlol/#";
+var topic = "devlol/babyscooter/#";
+
+var Bot = {
+    left: function(){
+        setMotor('left', '100');
+        setMotor('right', '0');
+    },
+    right: function(){
+        setMotor('right', '100');
+        setMotor('left', '0');
+    },
+    straight: function(){
+        setMotor('left', '100');
+        setMotor('right', '100');
+    },
+    halt: function(){
+        setMotor('right', '0');
+        setMotor('left', '0');
+    },
+}
 
 window.onkeydown = function(e) {
     if (e.keyCode == 37 /* left */) {
-        setMotor('left', '100');
-        setMotor('right', '0');
+        Bot.left();
     }
     if (e.keyCode == 39 /* right */) {
-        setMotor('right', '100');
-        setMotor('left', '0');
+        Bot.right();
     }
     if (e.keyCode == 38 /* straight */) {
-        setMotor('left', '100');
-        setMotor('right', '100');
+        Bot.straight();
     }
     if (e.keyCode == 40 /* halt */) {
-        setMotor('right', '0');
-        setMotor('left', '0');
+        Bot.halt();
     }
 }
 
