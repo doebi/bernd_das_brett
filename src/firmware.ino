@@ -14,6 +14,11 @@ String nodeName = "devlol/bernd/";
 const int left = 14;
 const int right = 15;
 
+const int l = 13;
+const int r = 4;
+const int u = 12;
+const int d = 2;
+
 int isAlive = 0;
 int mil = 0;
 
@@ -53,6 +58,10 @@ void setup() {
 
     pinMode(left, OUTPUT);
     pinMode(right, OUTPUT);
+    pinMode(l, INPUT_PULLUP);
+    pinMode(r, INPUT_PULLUP);
+    pinMode(u, INPUT_PULLUP);
+    pinMode(d, INPUT_PULLUP);
 }
 
 void loop() {
@@ -73,5 +82,27 @@ void loop() {
             client.set_callback(mqtt_callback);
             client.subscribe("#");
         }
+    }
+
+    // jostick
+    if(!digitalRead(l)) {
+        //client.publish(nodeName + "joystick", "LEFT");
+        digitalWrite(left, LOW);
+        digitalWrite(right, HIGH);
+    }
+    if(!digitalRead(r)) {
+        //client.publish(nodeName + "joystick", "RIGHT");
+        digitalWrite(right, LOW);
+        digitalWrite(left, HIGH);
+    }
+    if(!digitalRead(u)) {
+        //client.publish(nodeName + "joystick", "UP");
+        digitalWrite(left, HIGH);
+        digitalWrite(right, HIGH);
+    }
+    if(!digitalRead(d)) {
+        //client.publish(nodeName + "joystick", "DOWN");
+        digitalWrite(left, LOW);
+        digitalWrite(right, LOW);
     }
 }
